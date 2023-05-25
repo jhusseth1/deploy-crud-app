@@ -1,0 +1,69 @@
+.title-welcome {
+    color: #000000;
+}
+
+.title-project {
+    color: cornflowerblue;
+    font-size: 3.5rem;
+}
+
+.alert-error {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.alert-success {
+    padding: 20px;
+    background-color: #309f00;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+.btn-actions {
+    width: 5rem;
+    text-align: center;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-fuchsia {
+    color: blueviolet;
+}
+
+.color-green {
+    color: #309f00;
+}
+
+.text-show {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.access-denied {
+    background-image: url("https://t4.ftcdn.net/jpg/03/77/78/17/360_F_377781792_j2jOYENO4CDuw9Y6rmioE1yfE1X5L3sv.jpg");
+    width: 100%;
+    height: 100%;
+}
+
+.bg-tasks-container {
+    background-color: rgba(209, 170, 238, 0.75);
+}
