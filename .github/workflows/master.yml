@@ -19,4 +19,4 @@ jobs:
         
       - name: Deploy with Docker Compose on EC2 instance
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd myapp && docker-compose up --build -d'
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd myapp && docker-compose up -d'
