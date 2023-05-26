@@ -20,11 +20,8 @@ jobs:
         username:  ${{ secrets.EC2_USERNAME }} # Replace with your EC2 instance's SSH username
         key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
         script: |
-          if [ -d "deploy" ]; then
-            cd deploy
-            git pull
-          else
-            git clone git@github.com:jhusseth1/deploy-crud-app.git deploy
+          if [ ! -d "deploy" ]; then
+            git clone --depth=1 git@github.com:jhusseth1/deploy-crud-app.git deploy
           fi
 
     - name: SSH into EC2 instance and deploy containers
