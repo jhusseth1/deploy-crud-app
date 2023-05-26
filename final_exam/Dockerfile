@@ -4,4 +4,4 @@ COPY . .
 
 RUN mvn clean install -DskipITs -Dmaven.test.skip.exec
 
-CMD java -jar -Dspring.profiles.active=${ENV} target/final_exam-0.0.1-SNAPSHOT.war
+CMD java -jar target/final_exam-0.0.1-SNAPSHOT.war

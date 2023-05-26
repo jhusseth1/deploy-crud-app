@@ -7,7 +7,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: 'root'
             MYSQL_ROOT_HOST: "%"
-            MYSQL_DATABASE: 'codingdojo'
+            MYSQL_DATABASE: 'db_task'
             MYSQL_USER: 'codingdojo'
             MYSQL_PASSWORD: 'codingdojo'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -26,6 +26,15 @@ services:
             PMA_ARBITRARY: 1
             PMA_HOST: mysql
             PMA_PORT: '3306'
+        networks:
+            - sail
+        depends_on:
+            - mysql
+    project:
+        restart: 'unless-stopped'
+        build: final_exam/
+        ports:
+            - 8080:8080
         networks:
             - sail
         depends_on:
