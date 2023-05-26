@@ -19,10 +19,8 @@ jobs:
         host:  ${{ secrets.EC2_HOST }} # Replace with your EC2 instance's public IP address
         username:  ${{ secrets.EC2_USERNAME }} # Replace with your EC2 instance's SSH username
         key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-        
-    - name: Clone repository on EC2 instance
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'git clone git@github.com:jhusseth1/deploy-crud-app.git myapp'
+        script: |
+          git clone git@github.com:jhusseth1/deploy-crud-app.git myapp
        
 
     - name: SSH into EC2 instance and deploy containers
