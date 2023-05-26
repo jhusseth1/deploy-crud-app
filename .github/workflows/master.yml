@@ -1,52 +1,38 @@
-name: Deploy to EC2
+name: Deploy App with Docker Compose on EC2
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Install Docker and Docker Compose
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y docker.io
-        sudo systemctl start docker
-        sudo systemctl enable docker
-        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
+      - name: Install Docker and Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: <your-aws-region> # Replace with your desired AWS region
+      - name: SSH into EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST}} # Reemplaza con la IP pública de tu instancia EC2
+          username: ${{ secrets.EC2_USERNAME }} # Reemplaza con el nombre de usuario SSH de tu instancia EC2
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
-    - name: Connect to EC2 instance
-      uses: appleboy/ssh-action@master
-      with:
-        host: <ec2-instance-ip> # Replace with your EC2 instance's public IP address
-        username: <ec2-instance-username> # Replace with your EC2 instance's SSH username
-        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-
-    - name: Copy Docker Compose files to EC2 instance
-      run: |
-        scp -r docker-compose.yml <ec2-instance-username>@<ec2-instance-ip>:~/docker-compose.yml
-        scp -r .env <ec2-instance-username>@<ec2-instance-ip>:~/.env
-
-    - name: SSH into EC2 instance and deploy containers
-      uses: appleboy/ssh-action@master
-      with:
-        host: <ec2-instance-ip> # Replace with your EC2 instance's public IP address
-        username: <ec2-instance-username> # Replace with your EC2 instance's SSH username
-        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-        script: |
-          sudo docker-compose -f ~/docker-compose.yml up -d
-
+      - name: Clone repository on EC2 instance
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST}} 'git clone <URL del repositorio> myapp'
+        
+      - name: Deploy with Docker Compose on EC2 instance
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST}} 'cd myapp && docker-compose up -d'
