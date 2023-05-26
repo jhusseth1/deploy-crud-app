@@ -21,6 +21,10 @@ jobs:
         key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
         script: |
           if [ ! -d "deploy" ]; then
+            cd deploy
+            git pull
+            cd ..
+          else
             git clone --depth=1 git@github.com:jhusseth1/deploy-crud-app.git deploy
           fi
 
