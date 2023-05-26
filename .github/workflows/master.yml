@@ -23,12 +23,12 @@ jobs:
 #           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 #           sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: SSH into EC2 instance
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }} # Reemplaza con la IP pública de tu instancia EC2
-          username: ${{ secrets.EC2_USERNAME }} # Reemplaza con el nombre de usuario SSH de tu instancia EC2
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+#       - name: SSH into EC2 instance
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.EC2_HOST }} # Reemplaza con la IP pública de tu instancia EC2
+#           username: ${{ secrets.EC2_USERNAME }} # Reemplaza con el nombre de usuario SSH de tu instancia EC2
+#           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
       - name: Clone repository on EC2 instance
         run: |
