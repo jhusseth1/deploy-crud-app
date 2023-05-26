@@ -13,23 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-#       - name: Install Docker and Docker Compose
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install -y git docker
-#           sudo systemctl unmask docker
-#           sudo systemctl start docker
-#           sudo systemctl enable docker
-#           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-#           sudo chmod +x /usr/local/bin/docker-compose
-
-#       - name: SSH into EC2 instance
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.EC2_HOST }} # Reemplaza con la IP pública de tu instancia EC2
-#           username: ${{ secrets.EC2_USERNAME }} # Reemplaza con el nombre de usuario SSH de tu instancia EC2
-#           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-
       - name: Clone repository on EC2 instance
         run: |
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'git clone https://github.com/jhusseth1/deploy-crud-app.git myapp'
