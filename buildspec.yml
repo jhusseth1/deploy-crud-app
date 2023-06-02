@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      docker: latest
+      java: corretto11
     commands:
       - echo "Installing AWS CLI..."
       - apt-get update -y
