@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+    commands:
+      - echo "Installing AWS CLI..."
+      - apt-get update -y
+      - apt-get install -y awscli
+      - echo "AWS CLI installed."
+      
+  pre_build:
+    commands:
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY_URL
+      - echo "Logged in to Amazon ECR."
+      
+  build:
+    commands:
+      - echo "Building Docker image..."
+      - docker-compose build
+      
+  post_build:
+    commands:
+      - echo "Pushing Docker image to Amazon ECR..."
+      - docker-compose push
+      
+  deploy:
+    commands:
+      - echo "Deploying to EC2 using AWS CodeDeploy..."
+      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-group-name $DEPLOYMENT_GROUP_NAME --revision revisionType=S3,s3Location={bucket=$S3_BUCKET,key=$S3_KEY$,bundleType=zip}
+
